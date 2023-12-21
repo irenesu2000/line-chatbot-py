@@ -14,6 +14,41 @@ line_bot_api = LineBotApi(channel_access_token)
 channe_secret = os.environ.get('CHANNEL_SECRET', 'd89ecc5d7744bb60ae98b2f3b487c6f5')
 handler = WebhookHandler(channe_secret)
 
+
+@app.route("/callback", methods=['POST'])
+def callback():
+    signature = request.headers['X-Line-Signature']
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_image(event):
+    #message = TextSendMessage(text=event.message.text)
+    #line_bot_api.reply_message(event.reply_token, message)
+    try:
+        # 獲取圖片
+        message_content = line_bot_api.get_message_content(event.message.id)
+        
+        # 儲存圖片
+        with open("user_image.jpg", "wb") as f:
+            for chunk in message_content.iter_content():
+                f.write(chunk)
+        test_image = process_image("user_image.jpg")
+        newtest_image = np.expand_dims(test_image, axis=0)
+        download_file_from_google_drive(1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t, model.h5)
+        model = load_model('model.h5')
+        predictions = model.predict(newtest_image)
+        predicted_result = predict_breed(predictions)
+        reply_message = TextSendMessage(text=str(predicted_result))
+        line_bot_api.reply_message(event.reply_token, reply_message)
+    except LineBotApiError as e:
+        # 錯誤處理
+        print(e)
 def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
 
@@ -41,41 +76,6 @@ def save_response_content(response, destination):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
 
-file_id = '1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'
-destination = 'model.h5'
-download_file_from_google_drive(file_id, destination)
-model = load_model('model.h5')
-@app.route("/callback", methods=['POST'])
-def callback():
-    signature = request.headers['X-Line-Signature']
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-    return 'OK'
-
-@handler.add(MessageEvent, message=ImageMessage)
-def handle_image(event):
-    #message = TextSendMessage(text=event.message.text)
-    #line_bot_api.reply_message(event.reply_token, message)
-    try:
-        # 獲取圖片
-        message_content = line_bot_api.get_message_content(event.message.id)
-        # 儲存圖片
-        with open("user_image.jpg", "wb") as f:
-            for chunk in message_content.iter_content():
-                f.write(chunk)
-        test_image = process_image("user_image.jpg")
-        newtest_image = np.expand_dims(test_image, axis=0)
-        predictions = model.predict(newtest_image)
-        predicted_result = predict_breed(predictions)
-        reply_message = TextSendMessage(text=str(predicted_result))
-        line_bot_api.reply_message(event.reply_token, reply_message)
-    except LineBotApiError as e:
-        # 錯誤處理
-        print(e)
 
 def process_image(image_path, img_size=224):
   # Read in an image file

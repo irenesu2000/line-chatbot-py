@@ -39,6 +39,7 @@ def handle_image(event):
         with open("user_image.jpg", "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
+        app.logger.info("user_image.jpg saved")
         test_image = process_image("user_image.jpg")
         newtest_image = np.expand_dims(test_image, axis=0)
         file_id = '1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'

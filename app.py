@@ -7,6 +7,7 @@ from keras.models import load_model
 import numpy as np
 import tensorflow as tf
 import requests
+from linebot.exceptions import LineBotApiError
 
 app = Flask(__name__)
 channel_access_token = os.environ.get('CHANNEL_ACCESS_TOKEN', 'vUK0c7t5wTx/FuYhwUDoNI5AQVjvvlwjPFSR6Rl698i0tf4gzMO9zcvZUx4KPEJHMlDOHMPcLIY2r5OSkByRNZWWHMZzt+78Pxyp38iCL4nX+HwF8jcje70PGtc+Wn4aGUKBBr2WA8EGzdMtJNhIWAdB04t89/1O/w1cDnyilFU=')
@@ -81,6 +82,7 @@ def save_response_content(response, destination):
 
 def process_image(image_path, img_size=224):
   # Read in an image file
+  IMG_SIZE = 224
   image = tf.io.read_file(image_path)
   # Turn the jpeg image into numerical Tensor with 3 colour channels (Red, Green, Blue)
   image = tf.image.decode_jpeg(image, channels=3)

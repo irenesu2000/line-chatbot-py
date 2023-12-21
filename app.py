@@ -40,7 +40,9 @@ def handle_image(event):
                 f.write(chunk)
         test_image = process_image("user_image.jpg")
         newtest_image = np.expand_dims(test_image, axis=0)
-        download_file_from_google_drive(1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t, model.h5)
+        file_id = '1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'
+        destination = 'model.h5'
+        download_file_from_google_drive(file_id, destination)
         model = load_model('model.h5')
         predictions = model.predict(newtest_image)
         predicted_result = predict_breed(predictions)

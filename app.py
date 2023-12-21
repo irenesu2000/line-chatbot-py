@@ -48,7 +48,7 @@ def handle_image(event):
         line_bot_api.reply_message(event.reply_token, reply_message)
     except LineBotApiError as e:
         # 錯誤處理
-        print(e)
+        return 'error'
 def download_file_from_google_drive(id, destination):
     URL = "https://docs.google.com/uc?export=download"
 

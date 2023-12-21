@@ -6,3 +6,4 @@ werkzeug
 keras
 numpy
 tensorflow
+requests

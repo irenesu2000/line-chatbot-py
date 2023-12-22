@@ -12,7 +12,8 @@ line_bot_api = LineBotApi(channel_access_token)
 channe_secret = os.environ.get('CHANNEL_SECRET', 'd89ecc5d7744bb60ae98b2f3b487c6f5')
 handler = WebhookHandler(channe_secret)
 
-
+# Set the mounted disk path for uploads
+UPLOAD_DIRECTORY = "/upload"
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -29,9 +30,13 @@ def handle_image(event):
     try:
         message_id = event.message.id
         message_content = line_bot_api.get_message_content(message_id)
-        file_path = f"./upload/{message_id}.jpg"
+         # Use the mounted disk path to store the image
+        file_path = os.path.join(UPLOAD_DIRECTORY, f"{message_id}.jpg")
 
-        # 儲存照片
+        # Ensure the upload directory exists
+        os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
+
+        # Store image
         with open(file_path, "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)

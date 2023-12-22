@@ -29,24 +29,21 @@ def callback():
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
-    message_content = line_bot_api.get_message_content(event.message.id)
-    
-    # check
-    if isinstance(message_content, bytes):
-        # download on server
+    try:
+        message_content = line_bot_api.get_message_content(event.message.id)
         with open("user_image.jpg", "wb") as f:
-            for chunk in message_content:
+            for chunk in message_content.iter_content():
                 f.write(chunk)
-    
-        # respond to user
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="已收到您的照片，谢谢！")
+            TextSendMessage(text="已收到您的照片，謝謝！")
         )
-    else:
-        # error
-        print("error")
-
+    except Exception as e:
+        app.logger.error(f"Error: {e}")
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="抱歉，照片處理過程中出現錯誤。")
+        )
 
 import os
 if __name__ == "__main__":

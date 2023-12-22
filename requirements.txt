@@ -3,4 +3,7 @@ line-bot-sdk==2.3.0
 flask
 requests==2.28.0
 werkzeug
-
+keras
+numpy
+tensorflow
+pillow

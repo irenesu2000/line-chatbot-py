@@ -32,7 +32,7 @@ def handle_image(event):
     try:
         message_id = event.message.id
         message_content = line_bot_api.get_message_content(message_id)
-        file_path = f"upload/{message_id}.jpg"
+        file_path = f"./upload/{message_id}.jpg"
 
         # 儲存照片
         with open(file_path, "wb") as f:

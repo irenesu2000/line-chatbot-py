@@ -3,9 +3,6 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import *
 import os
-from keras.models import load_model
-import numpy as np
-import tensorflow as tf
 import requests
 from linebot.exceptions import LineBotApiError
 

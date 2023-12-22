@@ -30,14 +30,24 @@ def callback():
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
     try:
-        message_content = line_bot_api.get_message_content(event.message.id)
-        with open("user_image.jpg", "wb") as f:
+        message_id = event.message.id
+        message_content = line_bot_api.get_message_content(message_id)
+        file_path = f"upload/{message_id}.jpg"
+
+        # 儲存照片
+        with open(file_path, "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
+        
+        # 回傳照片給用戶
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="已收到您的照片，謝謝！")
+            [TextSendMessage(text="這是您的照片！"),
+             ImageSendMessage(original_content_url=f"{request.url_root}{file_path}",
+                              preview_image_url=f"{request.url_root}{file_path}")]
         )
+    except LineBotApiError as e:
+        app.logger.error(f"Line Bot API error: {e}")
     except Exception as e:
         app.logger.error(f"Error: {e}")
         line_bot_api.reply_message(

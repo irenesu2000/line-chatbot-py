@@ -14,10 +14,16 @@ channel_access_token = os.environ.get('CHANNEL_ACCESS_TOKEN', 'vUK0c7t5wTx/FuYhw
 line_bot_api = LineBotApi(channel_access_token)
 channe_secret = os.environ.get('CHANNEL_SECRET', 'd89ecc5d7744bb60ae98b2f3b487c6f5')
 handler = WebhookHandler(channe_secret)
-url = 'https://drive.google.com/uc?id=1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'
-output = 'model.h5'
-gdown.download(url, output, quiet=False)
-model = load_model(output)
+
+model = None
+def get_model():
+    global model
+    if model is None:
+        url = 'https://drive.google.com/uc?id=1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'
+        output = 'model.h5'
+        gdown.download(url, output, quiet=False)
+        model = load_model(output)
+    return model
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -63,6 +69,7 @@ def handle_image(event):
             predicted_result = predict_breed(predictions)
             reply_message = TextSendMessage(text=str(predicted_result))
             line_bot_api.reply_message(event.reply_token, reply_message)
+            os.remove(file_path)
         else:
             # 处理文件未保存的情况
             line_bot_api.reply_message(
@@ -81,9 +88,9 @@ def handle_image(event):
             event.reply_token,
             TextSendMessage(text="抱歉，照片處理過程中出現未知錯誤。")
         )
-def process_image(image_path, img_size=224):
+def process_image(image_path, img_size=64):
     # Read in an image file
-    IMG_SIZE = 224
+    IMG_SIZE = 64
     image = tf.io.read_file(image_path)
     # Turn the jpeg image into numerical Tensor with 3 colour channels (Red, Green, Blue)
     image = tf.image.decode_jpeg(image, channels=3)

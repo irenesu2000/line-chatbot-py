@@ -8,5 +8,4 @@ numpy
 tensorflow
 pillow
 gdown
-gevent
-syspath
+

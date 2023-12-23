@@ -56,7 +56,7 @@ def handle_image(event):
             
             img = process_image(file_path)
             # Log: Image processing done
-            logger.info("Image processing done")
+            app.logger.info("Image processing done")
             test_image = np.expand_dims(img, axis=0)
             model = get_model()
             app.logger.info("------------get model------------")

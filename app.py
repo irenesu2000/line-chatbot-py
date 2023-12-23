@@ -8,7 +8,6 @@ from PIL import Image
 import tensorflow as tf
 from keras.models import load_model 
 import gdown
-import logging
 
 app = Flask(__name__)
 channel_access_token = os.environ.get('CHANNEL_ACCESS_TOKEN', 'vUK0c7t5wTx/FuYhwUDoNI5AQVjvvlwjPFSR6Rl698i0tf4gzMO9zcvZUx4KPEJHMlDOHMPcLIY2r5OSkByRNZWWHMZzt+78Pxyp38iCL4nX+HwF8jcje70PGtc+Wn4aGUKBBr2WA8EGzdMtJNhIWAdB04t89/1O/w1cDnyilFU=')
@@ -36,9 +35,6 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-logger = logging.getLogger("linebot")
-logger.setLevel(logging.INFO)
-logger.addHandler(default_handler)
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
@@ -56,22 +52,22 @@ def handle_image(event):
         # 检查文件是否已经成功保存
         if os.path.exists(file_path) and os.path.isfile(file_path):
             # Log: Image stored
-            logger.info(f"Image stored: {file_path}")
+            app.logger.info(f"Image stored: {file_path}")
             
             img = process_image(file_path)
             # Log: Image processing done
             logger.info("Image processing done")
             test_image = np.expand_dims(img, axis=0)
             model = get_model()
-            logger.info("------------get model------------")
+            app.logger.info("------------get model------------")
             predictions = model.predict(test_image)
-            logger.info("------------Prediction------------")
+            app.logger.info("------------Prediction------------")
             predicted_result = predict_breed(predictions)
-            logger.info("------------Prediction done ------------")
+            app.logger.info("------------Prediction done ------------")
             reply_message = TextSendMessage(text=str(predicted_result))
             line_bot_api.reply_message(event.reply_token, reply_message)
             os.remove(file_path)
-            logger.info("Image file removed after processing")
+            app.logger.info("Image file removed after processing")
         else:
             # 处理文件未保存的情况
             line_bot_api.reply_message(

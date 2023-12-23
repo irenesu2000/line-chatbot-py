@@ -35,6 +35,9 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+logger = logging.getLogger("linebot")
+logger.setLevel(logging.INFO)
+logger.addHandler(default_handler)
 
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
@@ -43,34 +46,31 @@ def handle_image(event):
         message_content = line_bot_api.get_message_content(message_id)
          # Use the mounted disk path to store the image
         file_path = f"{message_id}.jpg"
-
+        # Log: Received an image message
+        logger.info(f"Received image message: {message_id}")
         # Store image
         with open(file_path, "wb") as f:
             for chunk in message_content.iter_content():
                 f.write(chunk)
         # 检查文件是否已经成功保存
         if os.path.exists(file_path) and os.path.isfile(file_path):
-           # 通知用户照片已收到
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="收到照片，正在处理..."))
+            # Log: Image stored
+            logger.info(f"Image stored: {file_path}")
+            
             img = process_image(file_path)
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="照片前處理完成..."))
+            # Log: Image processing done
+            logger.info("Image processing done")
             test_image = np.expand_dims(img, axis=0)
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="將丟入predict..."))
             model = get_model()
+            logger.info("------------get model------------")
             predictions = model.predict(test_image)
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="預測品種中..."))
+            logger.info("------------Prediction------------")
             predicted_result = predict_breed(predictions)
+            logger.info("------------Prediction done ------------")
             reply_message = TextSendMessage(text=str(predicted_result))
             line_bot_api.reply_message(event.reply_token, reply_message)
             os.remove(file_path)
+            logger.info("Image file removed after processing")
         else:
             # 处理文件未保存的情况
             line_bot_api.reply_message(

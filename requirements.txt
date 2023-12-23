@@ -10,4 +10,3 @@ pillow
 gdown
 gevent
 syspath
-logging

@@ -48,9 +48,18 @@ def handle_image(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text="收到照片，正在处理..."))
-            img = process_image(file_path) 
-            test_image = np.expand_dims(img, axis=0)  
+            img = process_image(file_path)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="照片前處理完成..."))
+            test_image = np.expand_dims(img, axis=0)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="將丟入predict..."))
             predictions = model.predict(test_image)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="預測品種中..."))
             predicted_result = predict_breed(predictions)
             reply_message = TextSendMessage(text=str(predicted_result))
             line_bot_api.reply_message(event.reply_token, reply_message)

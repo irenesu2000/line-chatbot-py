@@ -44,7 +44,7 @@ def handle_image(event):
          # Use the mounted disk path to store the image
         file_path = f"{message_id}.jpg"
         # Log: Received an image message
-        logger.info(f"Received image message: {message_id}")
+        app.logger.info(f"Received image message: {message_id}")
         # Store image
         with open(file_path, "wb") as f:
             for chunk in message_content.iter_content():

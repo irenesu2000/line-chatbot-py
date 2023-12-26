@@ -15,7 +15,7 @@ channel_access_token = os.environ.get('CHANNEL_ACCESS_TOKEN', 'vUK0c7t5wTx/FuYhw
 line_bot_api = LineBotApi(channel_access_token)
 channe_secret = os.environ.get('CHANNEL_SECRET', 'd89ecc5d7744bb60ae98b2f3b487c6f5')
 handler = WebhookHandler(channe_secret)
-model = get_model()
+
 
 model = None
 def get_model():
@@ -37,7 +37,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-
+model = get_model()
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
     try:

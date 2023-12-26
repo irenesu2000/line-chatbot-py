@@ -15,6 +15,7 @@ channel_access_token = os.environ.get('CHANNEL_ACCESS_TOKEN', 'vUK0c7t5wTx/FuYhw
 line_bot_api = LineBotApi(channel_access_token)
 channe_secret = os.environ.get('CHANNEL_SECRET', 'd89ecc5d7744bb60ae98b2f3b487c6f5')
 handler = WebhookHandler(channe_secret)
+model = get_model()
 
 model = None
 def get_model():
@@ -59,7 +60,7 @@ def handle_image(event):
             # Log: Image processing done
             app.logger.info("Image processing done")
             test_image = np.expand_dims(img, axis=0)
-            model = get_model()
+            #model = get_model()
             app.logger.info("------------get model------------")
             predictions = model.predict(test_image)
             app.logger.info("------------Prediction------------")

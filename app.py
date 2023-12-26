@@ -20,8 +20,8 @@ model = None
 def get_model():
     global model
     if model is None:
-        url = 'https://drive.google.com/uc?id=1g_8yo2_gRBdzibwwF6uPZ-v8fvwzrZ0t'
-        output = 'model.h5'
+        url = 'https://drive.google.com/uc?id=1dfC8DQdJHvvU5x2PYGIj-t5OkZFXWJag'
+        output = 'model_last.h5'
         gdown.download(url, output, quiet=False)
         model = load_model(output)
     return model

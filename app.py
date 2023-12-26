@@ -88,9 +88,9 @@ def handle_image(event):
             event.reply_token,
             TextSendMessage(text="抱歉，照片處理過程中出現未知錯誤。")
         )
-def process_image(image_path, img_size=64):
+IMG_SIZE = 100
+def process_image(image_path, img_size=IMG_SIZE):
     # Read in an image file
-    IMG_SIZE = 64
     image = tf.io.read_file(image_path)
     # Turn the jpeg image into numerical Tensor with 3 colour channels (Red, Green, Blue)
     image = tf.image.decode_jpeg(image, channels=3)

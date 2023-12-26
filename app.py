@@ -125,7 +125,7 @@ def predict_breed(predictions):
     '蝴蝶犬 (papillon)', '北京犬 (pekinese)', '彭布羅克威爾士柯基犬 (pembroke)', '博美犬 (pomeranian)', '巴哥犬 (pug)', 
     '紅骨獵犬 (redbone)', '羅德西亞背脊犬 (rhodesian_ridgeback)', '羅威那犬 (rottweiler)', '聖伯納犬 (saint_bernard)', 
     '沙魯基犬 (saluki)', '薩摩耶犬 (samoyed)', '舍伯奇犬 (schipperke)', '蘇格蘭梗 (scotch_terrier)', '蘇格蘭獵鹿犬 (scottish_deerhound)', 
-    '塞利哈姆梗 (sealyham_terrier)', '謝特蘭牧羊犬 (shetland_sheepdog)', '柴犬 (shiba)', '西施犬 (shih-tzu)', 
+    '塞利哈姆梗 (sealyham_terrier)', '謝特蘭牧羊犬 (shetland_sheepdog)', '柴犬 (shiba_inu)', '西施犬 (shih-tzu)', 
     '西伯利亞哈士奇 (siberian_husky)', '絲毛梗 (silky_terrier)', '軟毛小麥梗 (soft-coated_wheaten_terrier)', '斯塔福郡鬥牛梗 (staffordshire_bullterrier)', 
     '標準貴賓犬 (standard_poodle)', '標準雪納瑞 (standard_schnauzer)', '薩塞克斯獵犬 (sussex_spaniel)', '藏獒 (tibetan_mastiff)', 
     '藏獒 (tibetan_terrier)', '玩具貴賓犬 (toy_poodle)', '玩具梗 (toy_terrier)', '匈牙利短毛獵犬 (vizsla)', '沃克獵犬 (walker_hound)', 

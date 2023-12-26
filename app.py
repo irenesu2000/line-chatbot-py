@@ -88,7 +88,7 @@ def handle_image(event):
             event.reply_token,
             TextSendMessage(text="抱歉，照片處理過程中出現未知錯誤。")
         )
-def process_image(image_path, img_size=64):
+def process_image(image_path, img_size=128):
     # Read in an image file
     IMG_SIZE = 64
     image = tf.io.read_file(image_path)

@@ -90,7 +90,7 @@ def handle_image(event):
         )
 def process_image(image_path, img_size=128):
     # Read in an image file
-    IMG_SIZE = 64
+    IMG_SIZE = 128
     image = tf.io.read_file(image_path)
     # Turn the jpeg image into numerical Tensor with 3 colour channels (Red, Green, Blue)
     image = tf.image.decode_jpeg(image, channels=3)

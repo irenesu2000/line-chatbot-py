@@ -37,7 +37,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-model = get_model()
+
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
     try:
@@ -60,7 +60,7 @@ def handle_image(event):
             # Log: Image processing done
             app.logger.info("Image processing done")
             test_image = np.expand_dims(img, axis=0)
-            #model = get_model()
+            model = get_model()
             app.logger.info("------------get model------------")
             predictions = model.predict(test_image)
             app.logger.info("------------Prediction------------")

@@ -65,7 +65,7 @@ def handle_image(event):
             app.logger.info("------------Prediction------------")
             predicted_result = predict_breed(predictions)
             app.logger.info("------------Prediction done ------------")
-            reply_message = TextSendMessage(text=str(predicted_result))
+            reply_message = TextSendMessage(text="這茲勾勾4 " +str(predicted_result))
             line_bot_api.reply_message(event.reply_token, reply_message)
             os.remove(file_path)
             app.logger.info("Image file removed after processing")
@@ -100,38 +100,38 @@ def process_image(image_path, img_size=64):
     return image
 def predict_breed(predictions):
     dog_breeds = [
-    'affenpinscher', 'afghan_hound', 'african_hunting_dog', 'airedale',
-    'american_staffordshire_terrier', 'appenzeller', 'australian_terrier',
-    'basenji', 'basset', 'beagle', 'bedlington_terrier', 'bernese_mountain_dog',
-    'black-and-tan_coonhound', 'blenheim_spaniel', 'bloodhound', 'bluetick',
-    'border_collie', 'border_terrier', 'borzoi', 'boston_bull',
-    'bouvier_des_flandres', 'boxer', 'brabancon_griffon', 'briard',
-    'brittany_spaniel', 'bull_mastiff', 'cairn', 'cardigan',
-    'chesapeake_bay_retriever', 'chihuahua', 'chow', 'clumber', 'cocker_spaniel',
-    'collie', 'curly-coated_retriever', 'dandie_dinmont', 'dhole', 'dingo',
-    'doberman', 'english_foxhound', 'english_setter', 'english_springer',
-    'entlebucher', 'eskimo_dog', 'flat-coated_retriever', 'french_bulldog',
-    'german_shepherd', 'german_short-haired_pointer', 'giant_schnauzer',
-    'golden_retriever', 'gordon_setter', 'great_dane', 'great_pyrenees',
-    'greater_swiss_mountain_dog', 'groenendael', 'ibizan_hound', 'irish_setter',
-    'irish_terrier', 'irish_water_spaniel', 'irish_wolfhound',
-    'italian_greyhound', 'japanese_spaniel', 'keeshond', 'kelpie',
-    'kerry_blue_terrier', 'komondor', 'kuvasz', 'labrador_retriever',
-    'lakeland_terrier', 'leonberg', 'lhasa', 'malamute', 'malinois', 'maltese_dog',
-    'mexican_hairless', 'miniature_pinscher', 'miniature_poodle',
-    'miniature_schnauzer', 'newfoundland', 'norfolk_terrier',
-    'norwegian_elkhound', 'norwich_terrier', 'old_english_sheepdog',
-    'otterhound', 'papillon', 'pekinese', 'pembroke', 'pomeranian', 'pug',
-    'redbone', 'rhodesian_ridgeback', 'rottweiler', 'saint_bernard', 'saluki',
-    'samoyed', 'schipperke', 'scotch_terrier', 'scottish_deerhound',
-    'sealyham_terrier', 'shetland_sheepdog', 'shiba', 'shih-tzu',
-    'siberian_husky', 'silky_terrier', 'soft-coated_wheaten_terrier',
-    'staffordshire_bullterrier', 'standard_poodle', 'standard_schnauzer',
-    'sussex_spaniel', 'tibetan_mastiff', 'tibetan_terrier', 'toy_poodle',
-    'toy_terrier', 'vizsla', 'walker_hound', 'weimaraner',
-    'welsh_springer_spaniel', 'west_highland_white_terrier', 'whippet',
-    'wire-haired_fox_terrier', 'yorkshire_terrier'
+    '猴狀梗 (affenpinscher)', '阿富汗獵犬 (afghan_hound)', '非洲狩獵犬 (african_hunting_dog)', '艾爾戴爾梗 (airedale)',
+    '美國斯塔福郡梗 (american_staffordshire_terrier)', '阿彭策勒牧羊犬 (appenzeller)', '澳洲梗 (australian_terrier)',
+    '巴辛吉犬 (basenji)', '巴吉度獵犬 (basset)', '米格魯 (beagle)', '貝靈頓梗 (bedlington_terrier)', '伯恩山犬 (bernese_mountain_dog)',
+    '黑棕浣熊獵犬 (black-and-tan_coonhound)', '布倫海姆獵犬 (blenheim_spaniel)', '聖休伯特獵犬 (bloodhound)', '藍點獵犬 (bluetick)',
+    '邊境牧羊犬 (border_collie)', '邊境梗 (border_terrier)', '俄羅斯獵狼犬 (borzoi)', '波士頓梗 (boston_bull)',
+    '法蘭德斯牧牛犬 (bouvier_des_flandres)', '拳師犬 (boxer)', '布魯塞爾格裡芬犬 (brabancon_griffon)', '布里亞德牧羊犬 (briard)',
+    '布列塔尼獵犬 (brittany_spaniel)', '鬥牛獒 (bull_mastiff)', '凱恩梗 (cairn)', '卡地根威爾士柯基犬 (cardigan)',
+    '切薩皮克海灣拾回犬 (chesapeake_bay_retriever)', '吉娃娃 (chihuahua)', '鬆獅犬 (chow)', '克倫伯獵犬 (clumber)', 
+    '可卡犬 (cocker_spaniel)', '科利牧羊犬 (collie)', '捲毛拾回犬 (curly-coated_retriever)', '丹迪丁蒙梗 (dandie_dinmont)', 
+    '亞洲野犬 (dhole)', '澳洲野狗 (dingo)', '杜賓犬 (doberman)', '英國獵狐犬 (english_foxhound)', 
+    '英格蘭雪達犬 (english_setter)', '英國史賓格獵犬 (english_springer)', '恩特勒布赫山犬 (entlebucher)', '愛斯基摩犬 (eskimo_dog)', 
+    '平毛拾回犬 (flat-coated_retriever)', '法國鬥牛犬 (french_bulldog)', '德國牧羊犬 (german_shepherd)', '德國短毛指示犬 (german_short-haired_pointer)', 
+    '巨型雪納瑞 (giant_schnauzer)', '金毛尋回犬 (golden_retriever)', '戈登雪達犬 (gordon_setter)', '大丹犬 (great_dane)', 
+    '大比利牛斯山犬 (great_pyrenees)', '大瑞士山地犬 (greater_swiss_mountain_dog)', '格羅寧達爾 (groenendael)', '伊比薩獵犬 (ibizan_hound)', 
+    '愛爾蘭雪達犬 (irish_setter)', '愛爾蘭梗 (irish_terrier)', '愛爾蘭水獵犬 (irish_water_spaniel)', '愛爾蘭狼犬 (irish_wolfhound)', 
+    '意大利灰狗 (italian_greyhound)', '日本獵犬 (japanese_spaniel)', '荷蘭卷毛狗 (keeshond)', '澳洲牧羊犬 (kelpie)', 
+    '凱瑞藍梗 (kerry_blue_terrier)', '科莫多犬 (komondor)', '匈牙利牧羊犬 (kuvasz)', '拉布拉多拾回犬 (labrador_retriever)', 
+    '湖區梗 (lakeland_terrier)', '李昂伯格犬 (leonberg)', '拉薩犬 (lhasa)', '阿拉斯加雪橇犬 (malamute)', 
+    '比利時瑪利諾斯犬 (malinois)', '馬爾濟斯犬 (maltese_dog)', '墨西哥無毛犬 (mexican_hairless)', '迷你品丘犬 (miniature_pinscher)', 
+    '迷你貴賓犬 (miniature_poodle)', '迷你雪納瑞 (miniature_schnauzer)', '紐芬蘭犬 (newfoundland)', '諾福克梗 (norfolk_terrier)', 
+    '挪威獵鹿犬 (norwegian_elkhound)', '諾威奇梗 (norwich_terrier)', '老英格蘭牧羊犬 (old_english_sheepdog)', '水獺獵犬 (otterhound)', 
+    '蝴蝶犬 (papillon)', '北京犬 (pekinese)', '彭布羅克威爾士柯基犬 (pembroke)', '博美犬 (pomeranian)', '巴哥犬 (pug)', 
+    '紅骨獵犬 (redbone)', '羅德西亞背脊犬 (rhodesian_ridgeback)', '羅威那犬 (rottweiler)', '聖伯納犬 (saint_bernard)', 
+    '沙魯基犬 (saluki)', '薩摩耶犬 (samoyed)', '舍伯奇犬 (schipperke)', '蘇格蘭梗 (scotch_terrier)', '蘇格蘭獵鹿犬 (scottish_deerhound)', 
+    '塞利哈姆梗 (sealyham_terrier)', '謝特蘭牧羊犬 (shetland_sheepdog)', '柴犬 (shiba)', '西施犬 (shih-tzu)', 
+    '西伯利亞哈士奇 (siberian_husky)', '絲毛梗 (silky_terrier)', '軟毛小麥梗 (soft-coated_wheaten_terrier)', '斯塔福郡鬥牛梗 (staffordshire_bullterrier)', 
+    '標準貴賓犬 (standard_poodle)', '標準雪納瑞 (standard_schnauzer)', '薩塞克斯獵犬 (sussex_spaniel)', '藏獒 (tibetan_mastiff)', 
+    '藏獒 (tibetan_terrier)', '玩具貴賓犬 (toy_poodle)', '玩具梗 (toy_terrier)', '匈牙利短毛獵犬 (vizsla)', '沃克獵犬 (walker_hound)', 
+    '威瑪獵犬 (weimaraner)', '威爾斯濱獵犬 (welsh_springer_spaniel)', '西高地白梗 (west_highland_white_terrier)', '惠比特犬 (whippet)', 
+    '硬毛狐狸梗 (wire-haired_fox_terrier)', '約克夏梗 (yorkshire_terrier)'
 ]
+
     max_index = np.argmax(predictions)
     breed_name = dog_breeds[max_index]
     return breed_name
